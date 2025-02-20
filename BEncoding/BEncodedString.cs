@@ -4,22 +4,18 @@ namespace Nymphadora.BEncoding;
 
 public class BEncodedString(string value) : BEncodedElement
 {
-    public string Value { get; set; } = value;
+    private string Value { get; set; } = value;
 
     public BEncodedString() : this("")
     {
     }
     
-    public override int Length()
-    {
-        var length = Encoding.UTF8.GetBytes(Value).Length;
-        return length + 1 + length.ToString().Length;
-    }
+    public override int Length() => Encoding.UTF8.GetBytes(Value).Length + 1 + Encoding.UTF8.GetBytes(Value).Length.ToString().Length;
 
     public override void Decode(IEnumerator<byte> data)
     {
         long length = 0;
-        string result = "";
+        var result = "";
         
         do
         {
@@ -33,7 +29,7 @@ public class BEncodedString(string value) : BEncodedElement
 
         while (length > 0)
         {
-            result = result + (char)data.Current;
+            result += (char)data.Current;
             length--;
             data.MoveNext();
         }
@@ -42,7 +38,7 @@ public class BEncodedString(string value) : BEncodedElement
 
     public override byte[] Encode()
     {
-        var str = Value.Length.ToString() + ":" + Value;
+        var str = Value.Length + ":" + Value;
         return Encoding.UTF8.GetBytes(str);
     }
 }

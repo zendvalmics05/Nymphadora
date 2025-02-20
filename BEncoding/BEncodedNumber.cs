@@ -2,21 +2,18 @@
 
 public class BEncodedNumber(long value) : BEncodedElement
 {
-    public long Value { get; set; } = value;
+    private long Value { get; set; } = value;
 
     public BEncodedNumber() : this(0)
     {
     }
 
-    public override int Length()
-    {
-        return Value.ToString().Length + 2;
-    }
+    public override int Length() => Value.ToString().Length + 2;
 
     public override void Decode(IEnumerator<byte> data)
     {
         long result = 0;
-        int signum = 1;
+        var sign = 1;
         if (data.Current != 'i')
         {
             throw new FormatException("BEncodedNumber must start with 'i'.");
@@ -30,7 +27,7 @@ public class BEncodedNumber(long value) : BEncodedElement
 
         if (data.Current == '-')
         {
-            signum = -1;
+            sign = -1;
             data.MoveNext();
         }
 
@@ -50,12 +47,12 @@ public class BEncodedNumber(long value) : BEncodedElement
         } while(data.MoveNext());
 
         data.MoveNext();
-        Value = result;
+        Value = result * sign;
     }
 
     public override byte[] Encode()
     {
-        var str = "i" + Value.ToString() + "e";
+        var str = "i" + Value + "e";
         return System.Text.Encoding.UTF8.GetBytes(str);
     }
 }
