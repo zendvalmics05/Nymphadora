@@ -14,12 +14,17 @@ public class BEncodedList(List<BEncodedElement> elements) : BEncodedElement, ILi
 
     public override void Decode(IEnumerator<byte> data)
     {
+        if (data.Current != 'l')
+        {
+            throw new FormatException("BEncoded List must start with 'l'.");
+        }
         var list = new BEncodedList();
         while (data.MoveNext())
         {
             if (data.Current == 'e')
             {
                 Elements = list.Elements;
+                data.MoveNext();
                 return;
             }
             list.Add(BEncodeDecoder.Decode(data));
@@ -28,11 +33,7 @@ public class BEncodedList(List<BEncodedElement> elements) : BEncodedElement, ILi
 
     public override byte[] Encode()
     {
-        var length = Elements.Sum(element => element.Length());
-
-        length += 2;
-        
-        var arr = new byte[length];
+        var arr = new byte[Length()];
 
         arr[0] = (byte)'l';
 
