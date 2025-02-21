@@ -9,7 +9,6 @@ public static class BEncodeDecoder
     }
     public static BEncodedElement Decode(IEnumerator<byte> data)
     {
-        Console.WriteLine("Right here!!! " + (char)data.Current);
         if (data.Current == 'd')
         {
             var dictionary = new BEncodedDictionary();

@@ -24,7 +24,6 @@ public class BEncodedDictionary(Dictionary<BEncodedString, BEncodedElement> elem
 
         while (data.MoveNext())
         {
-            Console.WriteLine("Parsing dictionary elements: " + (char)data.Current);
             if (data.Current == 'e')
             {
                 Elements = dictionary.Elements;
