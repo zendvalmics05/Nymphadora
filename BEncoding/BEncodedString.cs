@@ -25,14 +25,14 @@ public class BEncodedString(string value) : BEncodedElement
             length = length * 10 + (data.Current - '0');
             data.MoveNext();
         } while (data.Current != ':');
-        Console.WriteLine(length);
+
         while (length > 0)
         {
             data.MoveNext();
             result += (char)data.Current;
             length--;
         }
-        Console.WriteLine((char)data.Current);
+
         
         Value = result;
     }
