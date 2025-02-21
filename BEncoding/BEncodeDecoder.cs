@@ -2,8 +2,14 @@
 
 public static class BEncodeDecoder
 {
+    public static BEncodedElement DecodeDictionary(IEnumerator<byte> data)
+    {
+        data.MoveNext();
+        return Decode(data);
+    }
     public static BEncodedElement Decode(IEnumerator<byte> data)
     {
+        Console.WriteLine("Right here!!! " + (char)data.Current);
         if (data.Current == 'd')
         {
             var dictionary = new BEncodedDictionary();

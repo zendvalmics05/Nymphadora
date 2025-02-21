@@ -21,18 +21,18 @@ public class BEncodedDictionary(Dictionary<BEncodedString, BEncodedElement> elem
             throw new FormatException("BEncodedDictionary must start with 'd'.");
         }
         var dictionary = new BEncodedDictionary();
-        
+
         while (data.MoveNext())
         {
+            Console.WriteLine("Parsing dictionary elements: " + (char)data.Current);
             if (data.Current == 'e')
             {
                 Elements = dictionary.Elements;
-                data.MoveNext();
                 return;
             }
-
             var key = new BEncodedString();
             key.Decode(data);
+            data.MoveNext();
             var value = BEncodeDecoder.Decode(data);
             dictionary.Add(key, value);
         }

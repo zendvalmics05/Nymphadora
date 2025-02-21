@@ -2,7 +2,7 @@
 
 public class BEncodedNumber(long value) : BEncodedElement
 {
-    private long Value { get; set; } = value;
+    public long Value { get; set; } = value;
 
     public BEncodedNumber() : this(0)
     {
@@ -45,8 +45,7 @@ public class BEncodedNumber(long value) : BEncodedElement
             
             result = result * 10 + (data.Current - '0');
         } while(data.MoveNext());
-
-        data.MoveNext();
+        
         Value = result * sign;
     }
 

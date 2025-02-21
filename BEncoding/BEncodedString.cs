@@ -4,7 +4,7 @@ namespace Nymphadora.BEncoding;
 
 public class BEncodedString(string value) : BEncodedElement
 {
-    private string Value { get; set; } = value;
+    public string Value { get; set; } = value;
 
     public BEncodedString() : this("")
     {
@@ -16,7 +16,6 @@ public class BEncodedString(string value) : BEncodedElement
     {
         long length = 0;
         var result = "";
-        
         do
         {
             if (!(data.Current >= '0' && data.Current <= '9'))
@@ -26,13 +25,15 @@ public class BEncodedString(string value) : BEncodedElement
             length = length * 10 + (data.Current - '0');
             data.MoveNext();
         } while (data.Current != ':');
-
+        Console.WriteLine(length);
         while (length > 0)
         {
+            data.MoveNext();
             result += (char)data.Current;
             length--;
-            data.MoveNext();
         }
+        Console.WriteLine((char)data.Current);
+        
         Value = result;
     }
 

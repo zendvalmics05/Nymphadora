@@ -4,7 +4,7 @@ namespace Nymphadora.BEncoding;
 
 public class BEncodedList(List<BEncodedElement> elements) : BEncodedElement, IList<BEncodedElement>
 {
-    private List<BEncodedElement> Elements { get; set; } = elements;
+    public List<BEncodedElement> Elements { get; set; } = elements;
 
     public BEncodedList() : this([])
     {
@@ -24,7 +24,6 @@ public class BEncodedList(List<BEncodedElement> elements) : BEncodedElement, ILi
             if (data.Current == 'e')
             {
                 Elements = list.Elements;
-                data.MoveNext();
                 return;
             }
             list.Add(BEncodeDecoder.Decode(data));
